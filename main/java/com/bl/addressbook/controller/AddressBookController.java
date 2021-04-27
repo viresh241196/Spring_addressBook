@@ -22,8 +22,6 @@ public class AddressBookController {
     public ResponseEntity<ResponseDTO> getAddressBookData() {
         List<AddressBookData> addressBookDataList = null;
         addressBookDataList=addressBookService.getContactDetails();
-//        AddressBookData addressBookData = new AddressBookData(1, new AddressBookDTO("viresh", "parel", "mumbai",
-//                "maharashtra", 400012, 1234567, "abc@abc.com"));
         ResponseDTO responseDTO = new ResponseDTO("get data successfully", addressBookDataList);
         return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
