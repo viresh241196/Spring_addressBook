@@ -1,6 +1,5 @@
 package com.bl.addressbook.model;
 
-
 import com.bl.addressbook.DTO.AddressBookDTO;
 
 public class AddressBookData {
