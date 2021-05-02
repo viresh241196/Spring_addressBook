@@ -16,7 +16,7 @@ public class AddressBookDTO {
     private String address;
     @Pattern(regexp = "^[A-Za-z ]{2,}$",message = "minimum 3 char and first capital char is required")
     private String city;
-    @Pattern(regexp = "^^[A-Za-z ]{2,}$",message = "minimum 3 char and first capital char is required")
+    @Pattern(regexp = "^[A-Za-z ]{2,}$",message = "minimum 3 char and first capital char is required")
     private String state;
     private long zip;
     private long phone;
