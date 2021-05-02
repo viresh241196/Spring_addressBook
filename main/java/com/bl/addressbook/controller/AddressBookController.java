@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,14 +21,13 @@ public class AddressBookController {
 
     @GetMapping("")
     public ResponseEntity<ResponseDTO> getAddressBookData() {
-        List<AddressBookData> addressBookDataList = null;
-        addressBookDataList=addressBookService.getContactDetails();
+        List<AddressBookData> addressBookDataList = addressBookService.getContactDetails();
         ResponseDTO responseDTO = new ResponseDTO("get data successfully", addressBookDataList);
         return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseDTO> addContact(@RequestBody AddressBookDTO addressBookDTO) {
+    public ResponseEntity<ResponseDTO> addContact(@Valid @RequestBody AddressBookDTO addressBookDTO) {
         AddressBookData addressBookData = addressBookService.createContactData(addressBookDTO);
         ResponseDTO responseDTO = new ResponseDTO("created successfully", addressBookData);
         return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
@@ -41,17 +41,17 @@ public class AddressBookController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseDTO> updateContact(@RequestBody AddressBookDTO addressBookDTO,
+    public ResponseEntity<ResponseDTO> updateContact(@Valid @RequestBody AddressBookDTO addressBookDTO,
                                                      @PathVariable("id") int id) {
-        AddressBookData addressBookData = addressBookService.updateContactData(id,addressBookDTO);
+        AddressBookData addressBookData = addressBookService.updateContactData(id, addressBookDTO);
         ResponseDTO responseDTO = new ResponseDTO("updated successfully", addressBookData);
         return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ResponseDTO> deleteContact(@PathVariable("id") int id){
-        addressBookService.deleteContactData(id);
-        ResponseDTO responseDTO = new ResponseDTO("deleted successfully id ", id);
+    public ResponseEntity<ResponseDTO> deleteContact(@PathVariable("id") int id) {
+        Boolean status =addressBookService.deleteContactData(id);
+        ResponseDTO responseDTO = new ResponseDTO("deleted successfully id ", status);
         return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 }
