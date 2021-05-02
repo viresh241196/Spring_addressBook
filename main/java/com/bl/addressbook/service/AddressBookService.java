@@ -1,6 +1,8 @@
 package com.bl.addressbook.service;
 
 import com.bl.addressbook.DTO.AddressBookDTO;
+import com.bl.addressbook.DTO.ResponseDTO;
+import com.bl.addressbook.exception.AddressBookException;
 import com.bl.addressbook.model.AddressBookData;
 import com.bl.addressbook.repository.AddressBookRepository;
 import lombok.Getter;
@@ -28,10 +30,20 @@ public class AddressBookService implements IAddressBookService {
     }
 
     @Override
-    public AddressBookData getContactDataById(int Id) {
-        Optional<AddressBookData> bookData = addressBookRepository.findById(Id);
-        AddressBookData addressBookData = bookData.get();
-        return addressBookData;
+    public ResponseDTO getContactDataById(int Id) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        try {
+            Optional<AddressBookData> bookData = addressBookRepository.findById(Id);
+            if (bookData.isPresent()) {
+                responseDTO.setData(bookData.get());
+                responseDTO.setMessage("fetch successfully");
+            } else {
+                throw new AddressBookException("Contact not found");
+            }
+        } catch (Exception e) {
+            throw new AddressBookException("Something went wrong");
+        }
+        return responseDTO;
     }
 
     @Override
